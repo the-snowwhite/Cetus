@@ -282,6 +282,7 @@ Item {
                 Button {
                     id: positionButton
                     text: "Go to: "
+                    tooltip: qsTr("Go to Z: and then to \nX/Y min/max corner \nset in menu to the right")
                     onClicked: {
                         g.gotoposition()
                     }
@@ -414,6 +415,7 @@ Item {
 	            Button {
 	                id: homeprobe
 	                text: qsTr("S Prb")
+                    tooltip: qsTr("Probe on current position \nand print avarage")
 	                onClicked: {
                             g.probehome()
 	                }
@@ -476,6 +478,7 @@ Item {
                     id: refprobe
 
                     text: qsTr("TCpos Prb")
+                    tooltip: qsTr("Go to TOOL_CHANGE_POSITION set in .ini file \nthen probe and save avarage in G53")
                     onClicked: {
                         g.proberef();
                     }
@@ -500,6 +503,7 @@ Item {
                	id: setProbeRef
                	Layout.fillWidth: false
 	           	text: qsTr("Set G28.1")
+                tooltip: qsTr("Set G28.1 to current position")
 	           	onClicked: {
                    	gcodecmdAction.mdiCommand = "G28.1"
                    	gcodecmdAction.trigger()
@@ -510,6 +514,7 @@ Item {
                	id: goToProbeRef
                	Layout.fillWidth: false
 	           	text: qsTr("Go2 G28.1")
+                tooltip: qsTr("Go to G28.1")
 	           	onClicked: {
                    	gcodecmdAction.mdiCommand = "G28 (goto probe ref point)"
                    	gcodecmdAction.trigger()

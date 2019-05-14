@@ -123,6 +123,12 @@ ServiceWindow {
         }
 
         Tab {
+            id: probeTab
+            title: qsTr("Probe")
+            ProbeTab { }
+        }
+
+        Tab {
             id: webcamTab
             active: true
             title: qsTr("Webcam")

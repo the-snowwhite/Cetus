@@ -166,12 +166,10 @@ Item {
                     gcodecmdAction.mdiCommand = "G49;"; gcodecmdAction.trigger();
                 }
                 gcodecmdAction.mdiCommand = "#5=[#4 - #3] (save reference tool probes max diversion);"; gcodecmdAction.trigger();
-//                gcodecmdAction.mdiCommand = "#1000=[#2/" + numprobesbox.value.toFixed(1) + "] (save avarage reference tool length);"; gcodecmdAction.trigger();
                 gcodecmdAction.mdiCommand = "#1000=[[#2/" + numprobesbox.value.toFixed(1) + "]+" + prboffsetbox.value.toFixed(3) + "] (save avarage reference tool length);"; gcodecmdAction.trigger();
                 gcodecmdAction.mdiCommand = "(debug,Z zero: " + positems.get(root.posnr).text + " #1000\n min: #3\n max: #4\n delta: #5);"; gcodecmdAction.trigger();
                 gcodecmdAction.mdiCommand = "(PROBECLOSE);"; gcodecmdAction.trigger();
                 gcodecmdAction.mdiCommand = "G91 G0Z5;"; gcodecmdAction.trigger();
-//                gcodecmdAction.mdiCommand = "#1000=[#1000+" + prboffsetbox.toFixed(1) + "] (add probe offset);"; gcodecmdAction.trigger();
                 gcodecmdAction.mdiCommand = "G10 L2 P1 z#1000 (set G54 Z offset to avg probe value plus offset);"; gcodecmdAction.trigger();
                 gcodecmdAction.mdiCommand = "G90"; gcodecmdAction.trigger();
                 probecommands.append("RefProbe finished \n ");
@@ -209,7 +207,6 @@ Item {
             gcodecmdAction.mdiCommand = "#2 = 0"
             gcodecmdAction.trigger()
             for(var i=0;i<numprobesbox.value.toFixed(1);i++) {
-//                homeAxisAction.trigger()
                 gcodecmdAction.mdiCommand = "G49"
                 gcodecmdAction.trigger()
                 gcodecmdAction.mdiCommand = "M64 P0 (enable probe input)"
@@ -237,14 +234,15 @@ Item {
     }
 
     ColumnLayout {
-        id: column1
+        id: columnspace
         width: Screen.width - Screen.pixelDensity * 6
         spacing: Screen.pixelDensity
+        Layout.fillHeight: true
 
         DigitalReadOut {
-			id: dro
-			textColor: "black"
-		}
+            id: dro
+            textColor: "black"
+        }
 
         MdiCommandAction {
             id: gcodecmdAction
@@ -253,156 +251,129 @@ Item {
 
         GridLayout {
             columns: 6
+            rows: 5
             Layout.fillWidth: true
-            Layout.fillHeight: false
+            Layout.fillHeight: true
+//        anchors.fill: parent
 
-            Label {
-                text: qsTr("X min:")
-            }
 
-            Label {
-                text: qsTr("X max:")
-            }
+                Label {
+                    text: qsTr("X min:")
+                }
 
-            Label {
-                text: qsTr("Y min:")
-            }
+                Label {
+                    text: qsTr("X max:")
+                }
 
-            Label {
-                text: qsTr("Y max:")
-            }
+                Label {
+                    text: qsTr("Y min:")
+                }
 
-            Label {
-                text: qsTr("Z:")
-            }
+                Label {
+                    text: qsTr("Y max:")
+                }
 
-            GridLayout {
-                columns: 2
-
-                Button {
-                    id: positionButton
-                    text: "Go to: "
-                    tooltip: qsTr("Go to Z: and then to \nX/Y min/max corner \nset in menu to the right")
-                    onClicked: {
-                        g.gotoposition()
-                    }
+                Label {
+                    text: qsTr("Z:")
                 }
 
                 ComboBox {
-                    implicitWidth: positionButton.width+10
                     id: cnrcombo
                     currentIndex: 0
+                    implicitWidth: positionButton.width
                     model: ListModel {
                         id: positems
-                        Layout.fillWidth: false
                         ListElement { text: "L Front"; color: "Yellow"; inx: 0}
                         ListElement { text: "R Front"; color: "Blue"; inx: 1}
                         ListElement { text: "L Back"; color: "Green"; inx: 2}
                         ListElement { text: "R Back"; color: "Red"; inx: 3}
                     }
                     onCurrentIndexChanged: {
-                        positionButton.text = "-> " + positems.get(currentIndex).text
+                        positionButton.text = "---> " + positems.get(currentIndex).text
                         root.posnr = currentIndex
                     }
                 }
-            }
 
-            SpinBox {
-                id: xminspinbox
-                Layout.fillWidth: false
-                suffix: "mm"
-                minimumValue: -999.9
-                maximumValue: 999.9
-                decimals: 2
-                stepSize: 10.0
-            }
+                SpinBox {
+                    id: xminspinbox
+                    suffix: "mm"
+                    minimumValue: -999.9
+                    maximumValue: 999.9
+                    decimals: 2
+                    stepSize: 10.0
+                }
 
-            SpinBox {
-                id: xmaxspinbox
-                Layout.fillWidth: false
-                suffix: "mm"
-                minimumValue: -999.9
-                maximumValue: 999.9
-                value: 390
-                decimals: 2
-                stepSize: 10.0
-            }
+                SpinBox {
+                    id: xmaxspinbox
+                    suffix: "mm"
+                    minimumValue: -999.9
+                    maximumValue: 999.9
+                    value: 390
+                    decimals: 2
+                    stepSize: 10.0
+                }
 
-            SpinBox {
-                id: yminspinbox
-                Layout.fillWidth: false
-                suffix: "mm"
-                minimumValue: -999.9
-                maximumValue: 999.9
-                decimals: 2
-                stepSize: 10.0
-            }
+                SpinBox {
+                    id: yminspinbox
+                    suffix: "mm"
+                    minimumValue: -999.9
+                    maximumValue: 999.9
+                    decimals: 2
+                    stepSize: 10.0
+                }
 
-            SpinBox {
-                id: ymaxspinbox
-                Layout.fillWidth: false
-                suffix: "mm"
-                minimumValue: -999.9
-                maximumValue: 999.9
-                value: 340
-                decimals: 2
-                stepSize: 10.0
-            }
+                SpinBox {
+                    id: ymaxspinbox
+                    suffix: "mm"
+                    minimumValue: -999.9
+                    maximumValue: 999.9
+                    value: 340
+                    decimals: 2
+                    stepSize: 10.0
+                }
 
-            SpinBox {
-                id: zspinbox
-                Layout.fillWidth: false
-                suffix: "mm"
-                minimumValue: -999.9
-                maximumValue: 999.9
-                value: -10
-                decimals: 3
-                stepSize: 1.0
-            }
+                SpinBox {
+                    id: zspinbox
+                    suffix: "mm"
+                    minimumValue: -999.9
+                    maximumValue: 999.9
+                    value: -10
+                    decimals: 3
+                    stepSize: 1.0
+                }
 
-            GridLayout {
-                columns: 2
-
-
-                Label {
-                    text: qsTr("         ")
+                Button {
+                    id: positionButton
+                    text: "---> L Front"
+                    tooltip: qsTr("Go to Z: and then to \nX/Y min/max corner \nset in above menu")
+                    onClicked: {
+                        g.gotoposition()
+                    }
                 }
 
                 Label {
-                    text: qsTr("         ")
+                    text: qsTr("Prb-feed:")
                 }
 
-            }
+                Label {
+                    text: qsTr("Prb-To")
+                }
 
-            Label {
-                text: qsTr("Prb-feed:")
-            }
+                Label {
+                    text: qsTr("Num Probes")
+                }
 
-            Label {
-                text: qsTr("Prb-To")
-            }
+                Label {
+                    text: qsTr("Prb offset")
+                }
 
-            Label {
-                text: qsTr("Num Probes")
-            }
-
-            Label {
-                text: qsTr("Prb offset")
-            }
-
-            Label {
-                text: qsTr("-----")
-            }
-
-            GridLayout {
-                columns: 2
                 Button {
                     id: probecorners
                     text: qsTr("Prb Cnr")
                     onClicked: {
-	                    for(var j=0;j<=3;j++) {
+                        for(var j=0;j<=3;j++) {
                             cnrcombo.currentIndex = j
-	                        g.gotoposition()
+                            g.gotoposition()
                             g.probeavg()
                         }
                         cnrcombo.currentIndex = 0
@@ -412,113 +383,95 @@ Item {
                     }
                 }
 
-	            Button {
-	                id: homeprobe
-	                text: qsTr("S Prb")
-                    tooltip: qsTr("Probe on current position \nand print avarage")
-	                onClicked: {
-                            g.probehome()
-	                }
-	            }
-            }
-
-            SpinBox {
-                id: zfeedbox
-                Layout.fillWidth: false
-                suffix: "mm/m"
-                minimumValue: 1.0
-                maximumValue: 600.9
-                value: 60
-                decimals: 3
-                stepSize: 1.0
-            }
-
-            SpinBox {
-               id: prbtobox
-                Layout.fillWidth: false
-                suffix: "mm"
-                minimumValue: -29.9
-                maximumValue: 99.9
-                value: 3
-                decimals: 2
-                stepSize: 0.5
-            }
-
-            SpinBox {
-                id: numprobesbox
-                Layout.fillWidth: false
-                suffix: ""
-                minimumValue: 1.0
-                maximumValue: 100
-                value: 10
-                decimals: 0
-                stepSize: 1
-            }
-
-            SpinBox {
-                id: prboffsetbox
-                Layout.fillWidth: false
-                suffix: "mm"
-                minimumValue: -10.000
-                maximumValue: 20.000
-                value: 0.000
-                decimals: 3
-                stepSize: 0.010
-            }
-
-//            GridLayout {
-//                columns: 2
-
-                Label {
-                    width: 300
-                    text: qsTr("         ")
-                }
-
                 Button {
-                    id: refprobe
-
-                    text: qsTr("TCpos Prb")
-                    tooltip: qsTr("Go to TOOL_CHANGE_POSITION set in .ini file \nthen probe and save avarage in G53")
+                    id: homeprobe
+                    implicitWidth: positionButton.width
+                    text: qsTr("S Prb")
+                    tooltip: qsTr("Probe on current position \nand print avarage")
                     onClicked: {
-                        g.proberef();
+                            g.probehome()
                     }
                 }
-/*
+
+                SpinBox {
+                    id: zfeedbox
+                    suffix: "mm/m"
+                    minimumValue: 1.0
+                    maximumValue: 600.9
+                    value: 60
+                    decimals: 3
+                    stepSize: 1.0
+                }
+
+                SpinBox {
+                id: prbtobox
+                    suffix: "mm"
+                    minimumValue: -40.9
+                    maximumValue: 99.9
+                    value: 3
+                    decimals: 2
+                    stepSize: 0.5
+                }
+
+                SpinBox {
+                    id: numprobesbox
+                    suffix: ""
+                    minimumValue: 1.0
+                    maximumValue: 100
+                    value: 10
+                    decimals: 0
+                    stepSize: 1
+                }
+
+                SpinBox {
+                    id: prboffsetbox
+                    suffix: "mm"
+                    minimumValue: -20.000
+                    maximumValue: 20.000
+                    value: 0.000
+                    decimals: 3
+                    stepSize: 0.010
+                }
+
                 Label {
                     text: qsTr("         ")
                 }
-*/
-//            }
-        }
 
-        GridLayout {
-          	columns: 3
+            Button {
+                id: refprobe
+
+                text: qsTr("TCpos Prb")
+                implicitWidth: positionButton.width
+                tooltip: qsTr("Go to TOOL_CHANGE_POSITION set in .ini file \nthen probe and save avarage in G53")
+                onClicked: {
+                    g.proberef();
+                }
+            }
+
             Button {
             id: homeZAxisAction
-               	Layout.fillWidth: false
-               	action: HomeAxisAction { axis: 2 }
+                Layout.fillWidth: false
+                action: HomeAxisAction { axis: 2 }
             }
 
             Button {
-               	id: setProbeRef
-               	Layout.fillWidth: false
-	           	text: qsTr("Set G28.1")
+                id: setProbeRef
+                text: qsTr("Set G28.1")
                 tooltip: qsTr("Set G28.1 to current position")
-	           	onClicked: {
-                   	gcodecmdAction.mdiCommand = "G28.1"
-                   	gcodecmdAction.trigger()
-	           	}
+                onClicked: {
+                    gcodecmdAction.mdiCommand = "G28.1"
+                    gcodecmdAction.trigger()
+                }
             }
 
             Button {
-               	id: goToProbeRef
-               	Layout.fillWidth: false
-	           	text: qsTr("Go2 G28.1")
+                id: goToProbeRef
+                text: qsTr("Go2 G28.1")
                 tooltip: qsTr("Go to G28.1")
-	           	onClicked: {
-                   	gcodecmdAction.mdiCommand = "G28 (goto probe ref point)"
-                   	gcodecmdAction.trigger()
-	           	}
+                onClicked: {
+                    gcodecmdAction.mdiCommand = "G28 (goto probe ref point)"
+                    gcodecmdAction.trigger()
+                }
             }
         }
 
@@ -530,9 +483,10 @@ Item {
             text:
             "(Hello \n"
         }
-        Item {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-        }
+//         Item {
+//             Layout.fillHeight: true
+//             Layout.fillWidth: true
+//         }
+
     }
 }

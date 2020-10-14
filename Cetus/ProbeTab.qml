@@ -328,7 +328,7 @@ Item {
                 SpinBoxStyle {
                     background: Rectangle {
                         //                            implicitWidth: zfeedbox.width //146
-                        implicitWidth: 132
+                        implicitWidth: 172
                         implicitHeight: 26
                         border.color: "blue"
                         border.width: 2
@@ -342,7 +342,7 @@ Item {
                 SpinBoxStyle {
                     background: Rectangle {
                         //                            implicitWidth: zfeedbox.width //146
-                        implicitWidth: 132
+                        implicitWidth: 172
                         implicitHeight: 26
                         border.color: "green"
                         border.width: 3

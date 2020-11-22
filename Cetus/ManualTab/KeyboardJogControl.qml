@@ -10,22 +10,22 @@ ApplicationItem {
 
     id: root
 
-    signal selectAxis(int axis)
+    signal selectAxis(int joint)
     signal increment(bool enabled)
     signal decrement(bool enabled)
     signal selectIncrement(int index)
 
     QtObject {
         id: d
-        function activateIncrement(axis) {
-            root.selectAxis(axis);
+        function activateIncrement(joint) {
+            root.selectAxis(joint);
             root.selectIncrement(1);
             root.increment(true);
             root.increment(false);
         }
 
-        function activateDecrement(axis) {
-            root.selectAxis(axis);
+        function activateDecrement(joint) {
+            root.selectAxis(joint);
             root.selectIncrement(1);
             root.decrement(true);
             root.decrement(false);

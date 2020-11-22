@@ -31,7 +31,7 @@ ColumnLayout {
             Layout.fillWidth: false
             direction: -1
             distance: jogCombo.distance
-            axis: axisRadioGroup.axis
+            joint: axisRadioGroup.joint
         }
 
         JogButton {
@@ -39,19 +39,19 @@ ColumnLayout {
             Layout.fillWidth: false
             direction: 1
             distance: jogCombo.distance
-            axis: axisRadioGroup.axis
+            joint: axisRadioGroup.joint
         }
 
         JogDistanceComboBox {
             id: jogCombo
             Layout.fillWidth: true
-            axis: axisRadioGroup.axis
+            joint: axisRadioGroup.joint
         }
 
         KeyboardJogControl {
             id: keyboardJogControl
             enabled: jogCombo.distance !== 0.0
-            onSelectAxis: axisRadioGroup.axis = axis
+            onSelectAxis: axisRadioGroup.joint = joint
             onIncrement: incrementButton._toggle(enabled)
             onDecrement: decrementButton._toggle(enabled)
             onSelectIncrement: {
@@ -68,14 +68,14 @@ ColumnLayout {
         Button {
             id: homeAllAxesButton
             Layout.fillWidth: false
-            action: HomeAxisAction { id: homeAxisAction; axis: -1 }
+            action: HomeAxisAction { id: homeAxisAction; joint: -1 }
             visible: homeAxisAction.homeAllAxesHelper.homingOrderDefined
         }
 
         Button {
             id: homeAxisButton
             Layout.fillWidth: false
-            action: HomeAxisAction { axis: axisRadioGroup.axis }
+            action: HomeAxisAction { joint: axisRadioGroup.joint }
             visible: !homeAllAxesButton.visible
         }
 
@@ -90,7 +90,7 @@ ColumnLayout {
 
         TouchOffDialog {
             id: touchOffDialog
-            axis: axisRadioGroup.axis
+            joint: axisRadioGroup.joint
             height: window.height * 0.2
         }
     }
@@ -114,7 +114,7 @@ ColumnLayout {
     JogVelocitySlider {
         id: jogVelocitySlider
         Layout.fillWidth: true
-        axis: axisRadioGroup.axis
+        joint: axisRadioGroup.joint
         proportional: true
     }
 }
